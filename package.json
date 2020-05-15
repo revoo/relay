@@ -1,6 +1,9 @@
 {
   "name": "relay",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.x"
+  },
   "description": "chat application",
   "main": "index.js",
   "scripts": {
