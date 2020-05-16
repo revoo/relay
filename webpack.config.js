@@ -1,5 +1,5 @@
 module.exports = {
-    entry: './index.js',
+    entry: './src/index.js',
     output: {
         filename: 'bundle.js'
     },
@@ -16,6 +16,13 @@ module.exports = {
                         presets: ['@babel/preset-react']
                     }
                 }
+            },
+            {
+                test: /\.css$/i,
+                loader: 'css-loader',
+                options: {
+                    modules: true,
+                },
             }
         ]
     }
