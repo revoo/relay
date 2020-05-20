@@ -1,8 +1,72 @@
-html {
+@font-face {
+       font-family: 'Roboto';
+       src:  url('./fonts/Roboto-Regular.ttf') format('ttf');
+       font-weight: normal;
+       font-style: normal;
+}
 
+@font-face {
+    font-family: 'Roboto';
+    src:  url('./fonts/Roboto-Bold.ttf') format('ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src:  url('./fonts/Roboto-Italic.ttf') format('ttf');
+    font-weight: normal;
+    font-style: italic;
+}
+
+html {
+    color: white;
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,205,226,1) 97%);
+    height: 10vh;
+    font-family: Roboto, sans-serif;
+    border-top: solid 2px;
+    border-color: #39cccd;
 }
 
 .header {
     color: blue;
-    font-size: '25px';
+    font-size: 25px;
+}
+
+p {
+    margin: 0.5rem 0.5rem;
+    font-size: 18px;
+}
+
+.nickName {
+    margin-bottom: 2rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 2px solid #1a73e8;
+    outline: 0;
+    font-size: 14px;
+    width: 5vw;
+}
+
+.chatArea {
+    border: 1px solid black;
+    width: 55vw;
+    height: 55vh;
+    border: 2px solid #1a73e8;
+    border-radius: 8px;
+    overflow: auto;
+    background-color: white;
+    word-wrap:break-word;
+}
+
+.messageArea {
+        margin-top: 2rem;
+        padding: 13px 15px;
+        border-radius: 8px;
+        border: 2px solid #1a73e8;
+        outline: 0;
+        width: 30vw;
+        resize: none;
+        font-size: 20px;
 }
