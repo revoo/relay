@@ -14,12 +14,16 @@ const env = process.env.NODE_ENV || 'development';
 // under the hood, the standard webpack server uses this component as well. But I don't want two different express servers
 // one running backend services and one serving static assets like JS and css. I just want one so I will integrate it with this server in dev.
 // HMR disabled.
-if (env === 'development') {
+if (env === 'localhost') {
+    // env variable is set using npm script with the cross-env npm package.
+    console.log('-- APP: Node running in localhost.');
+    console.log('-- APP: Enabling localhost debug logging.');
     // 1. webpack set up
     const webpack = require('webpack');
     // to avoid requiring webpack in multiple files, the webpack instance from server.js is passed into this module.
-    // for use with the DefinePlugin under plugins
-    const config = require('./dev.webpack.config')(webpack);
+    // for use with the DefinePlugin under plugins  
+    // later note: node caches the require module result so you don't have to worry about multiple requires 
+    const config = require('./local.webpack.config');
     const complier = webpack(config);
     // automatic compliation
     const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -48,6 +52,10 @@ if (env === 'development') {
     // Should be less than the client's timeout setting - usually set to half its value.
     // heartbeat: 10 * 1000
     // }))
+}
+// if not in localhost - disable console logger.
+else {
+    console.log = function(){};
 }
 // client sockets connected to chat
 const clients = [];
@@ -79,16 +87,16 @@ app.get('/bundle.js', (req, res) => res.sendFile('./dist/bundle.js', { root: __d
 io.on('connect', (socket) => {
     // add this client to clients array
     clients.push(socket);
-    // console.log(`Client connected: ${socket.id}.`);
+    console.log(`Client connected: ${socket.id}.`);
     // notify everybody but connected client of the connection
     socket.broadcast.emit('new-connection', new Date().toLocaleTimeString());
     // notify when client disconnects
     socket.on('disconnect', () => socket.broadcast.emit('client-disconnect', new Date().toLocaleTimeString()));
-    socket.on('message', (data) => {
+    socket.on('message', (data, ackFn) => {
         let timeStamp = new Date().toLocaleTimeString();
-        // console.log(`${timeStamp} ---- Message recieved from socket: ${socket.id}`);
-        // console.log(`Nickname: ${data.sender}`);
-        // console.log(`Payload: ${data.message.trim()}`);
+        console.log(`${timeStamp} ---- Message recieved from socket: ${socket.id}`);
+        console.log(`Nickname: ${data.sender}`);
+        console.log(`Payload: ${data.message.trim()}`);
         // broadcast message to all connected clients except sender
         // we want to broadcast to everybody including the sender
         // socket.broadcast.emit('boardcast', data);
@@ -97,13 +105,14 @@ io.on('connect', (socket) => {
             ...data,
             timeStamp: timeStamp
         }
+        // callback function to acknowledge. Returns timestamp to caller. 
+        ackFn(timeStamp);
         io.emit('broadcast', serverData);
     });
 
 });
 
 
-// io.on('test', (socket) => console.log(`client sent: ${socket}`));
 // start listening for connections
-server.listen(PORT, () => console.debug(`---------- Node server running and listening on port: ${PORT}`));
+server.listen(PORT, () => console.log(`---------- Node server running and listening on port: ${PORT}`));
 

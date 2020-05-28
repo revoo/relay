@@ -7,7 +7,7 @@ require('dotenv').config();
 module.exports = {
         // this is the default
         target: 'web',
-        entry: './src/index.js',
+        entry: './src/index.jsx',
         output: {
             filename: 'bundle.js',
             publicPath: '/'

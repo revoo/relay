@@ -10,7 +10,11 @@ import App from './App';
 
 // HMR doesn't work in this application
 // if (module.hot) {
-    // module.hot.accept();
+// module.hot.accept();
 // }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root'));

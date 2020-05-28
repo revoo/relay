@@ -6,14 +6,13 @@ require('dotenv').config();
 
 // to avoid requiring webpack in multiple files, the webpack instance from server.js is passed into this module.
 // for use with the DefinePlugin under plugins
-module.exports = (webpack) => {
-    return {
+module.exports = {
         // this is the default
         target: 'web',
         // from web: Your Webpack config needs to include the HMR client code as an entry point in addition to your actual application entry file. 
         // This adds a small piece to the client bundle, which will open a websocket connection back to the Webpack dev server.
         // entry: ['./src/index.js', "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000"],
-        entry: './src/index.js',
+        entry: './src/index.jsx',
         output: {
             filename: 'bundle.js',
             // for dev webpack server middleware for use with our own custom express server rather than webpack dev built in express server
@@ -38,9 +37,9 @@ module.exports = (webpack) => {
             // webpack will write automatic builds to disk
             writeToDisk: true
         },
-        // various development tools for webpack. Inline source map enables source maps so instead of getting an error from bundle.js
+        // various development tools for webpack. Eval source map enables source maps so instead of getting an error from bundle.js
         // you'll get an error for the component directly responsible like sockets.js which after build gets bundled into bundle.js
-        devtool: 'inline-source-map',
+        devtool: 'eval-source-map',
         plugins: [
             // no need for dotenv for react for now 
             // new Dotenv()
@@ -50,12 +49,14 @@ module.exports = (webpack) => {
                 // the value given to it must include actual quotes inside of the string itself. 
                 // Typically, this is done either with either alternate quotes, such as '"production"', or by using JSON.stringify('production'). 
                 WEBPACK_WILL_INJECT_HOSTNAME: JSON.stringify(process.env.LOCALHOST),
+                'process.env.NODE_ENV': JSON.stringify('localhost')
             })
         ],
         module: {
             rules: [
                 {
-                    test: /\.js/,
+                    test: /\.jsx?$/,
+                    resolve: { extensions: [".js", ".jsx"] },
                     include: [path.resolve(__dirname, 'src')],
                     use: {
                         loader: 'babel-loader',
@@ -85,4 +86,3 @@ module.exports = (webpack) => {
             ]
         }
     }
-}

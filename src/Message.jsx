@@ -16,9 +16,7 @@ const Message = (props) => {
         messageContents = <p style={messageStyle}>{props.timeStamp} - <b>{props.sender}</b>: {props.messageContents}</p>;
     }
 
-    return (
-        messageContents
-    );
+    return messageContents;
 }
 
 export default Message;
