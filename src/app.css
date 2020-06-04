@@ -19,6 +19,7 @@
     font-style: italic;
 }
 
+
 html {
     color: white;
     background: rgb(0,0,0);
@@ -29,9 +30,44 @@ html {
     border-color: #39cccd;
 }
 
+.login {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.loginHeader {
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 8px;
+    font-family: 'Georgia';
+}
+
 .header {
     color: blue;
     font-size: 25px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    opacity: 0.3;
+    width: 100%;
+    height: 1%;
+    left: 0;
+    color: black;
+    text-align: center;
+}
+
+.loginForm {
+    border: white 1px solid;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    opacity: 0.65;
+    height: 4rem;
+    border-radius: 12px;
 }
 
 p {
@@ -48,6 +84,35 @@ p {
     font-size: 14px;
     width: 5vw;
 }
+
+.nickNameInput {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid black;
+    text-align: center;
+    color: black;
+    box-sizing: border-box;
+    font-family: 'verdana';
+    font-size: 18px;
+    height: 50px;
+  }
+  
+  
+  .underline {
+    background-color: dodgerblue;
+    display: inline-block;
+    height: 2px;
+    left: 50px;
+    margin-top: -4px;
+    position: absolute;
+    top: 185px;
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+    width: 202px;
+  }
+
 
 .chatArea {
     border: 1px solid black;

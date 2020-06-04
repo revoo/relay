@@ -13,16 +13,15 @@ const MessageBox = (props) => {
     }
 
     // render messagebox only if nick name is set
-    return (props.nickName)
-        ?
+    return (
         <textarea
             placeholder="Start typing a message..."
             style={style}
             ref={props.messageElement}
-            onKeyDown={props.pushMessageEventHandler}>
+            onKeyDown={props.pushMessageEventHandler}
+            autoFocus>
         </textarea>
-        :
-        <p>Please enter a nick name before typing a message.</p>
+    );
 };
 
 export default MessageBox;

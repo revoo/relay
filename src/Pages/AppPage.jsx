@@ -1,29 +1,30 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { debounce } from 'debounce';
+import Cookies from 'js-cookie';
 
-import socketEmitter from './socketEmitter';
-import socketListener from './socketListener';
-import NickNameInput from './NickNameInput';
-import ChatBox from './ChatBox';
-import MessageBox from './MessageBox';
-import Message from './Message';
+import socketEmitter from '../util/socketEmitter';
+import socketListener from '../util/socketListener';
+import ChatBox from '../UI/ChatBox';
+import MessageBox from '../UI/MessageBox';
+import Message from '../UI/Message';
+import Footer from '../UI/Footer';
 
 // use css-modules implemented by css-loader with webpack
 // css-modules and react in general can't understand hyphens so 
 // all CSS related variables use camelCase.
-import classes from './app.css'
+import classes from '../app.css'
 
-const App = () => {
-    const [nickName, setNickName] = useState();
-    const [loggedIn, setLoggedIn] = useState(false);
+const AppPage = (props) => {
+    const [nickName, setNickName] = useState(Cookies.get('user'));
+    const [loggedIn, setLoggedIn] = useState(true);
     const [messages, setMessages] = useState([]);
-    const [recieveEvents, setRecieveEvents] = useState(false);
-    const [emitEvents, setEmitEvents] = useState(false);
+    const [recieveEvents, setRecieveEvents] = useState(true);
+    const [emitEvents, setEmitsEvents] = useState(true);
     const messageElement = useRef();
     const chatElement = useRef();
 
     console.debug('DEBUG: Main app component rendered.');
-
+    
     // setters
     /* NOTE: passing setState callbacks to children components is a good react pattern 
              to hoist state to the highest general component and distribute it from there */
@@ -35,7 +36,6 @@ const App = () => {
             && (event.key === 'Enter' || event.type === 'blur')) {
             setNickName(newNickName.trim());
             setLoggedIn(true);
-            setRecieveEvents(true);
             console.log('DEBUG: Nick name set.');
         }
     }
@@ -53,7 +53,7 @@ const App = () => {
     // emits a new message
     const pushMessageEventHandler = (event) => {
         console.log('Typing a message...');
-        if (event.key === 'Enter' && event.target.value.trim() !== '') {
+        if (emitEvents && event.key === 'Enter' && event.target.value.trim() !== '') {
             event.preventDefault();
             // emit an event
             // third parameter (immediate) executes the function at the start of the interval instead of tail.
@@ -86,12 +86,11 @@ const App = () => {
         <div>
             <h1>RELAY 1.0</h1>
 
-            <NickNameInput setNickNameHandler={setNickNameHandler} />
             <ChatBox chatContents={messages} />
-            <MessageBox nickName={nickName} pushMessageEventHandler={pushMessageEventHandler} />
-
+            <MessageBox pushMessageEventHandler={pushMessageEventHandler} />
+            <Footer />
         </div >
     )
 }
 
-export default App;
+export default AppPage;

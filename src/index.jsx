@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import Router from './Router';
 
 // entry point for webpack hot module replacement (HMR).
 // Specifying this at the application root level component.
@@ -15,6 +15,6 @@ import App from './App';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Router />
     </React.StrictMode>,
     document.getElementById('root'));

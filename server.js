@@ -81,6 +81,11 @@ app.get('/', (req, res) => res.sendFile('./index.html', { root: __dirname }));
 // serve the react JS file when GET requested
 app.get('/bundle.js', (req, res) => res.sendFile('./dist/bundle.js', { root: __dirname }));
 
+// 404 route - last route - redirect to main login.
+app.get('*', (req, res) => res.redirect('/'));
+
+// get cookie after login
+
 
 // socket IO stuff
 // guess you have to do it this way so that when a client connects you know which socket to listen on.
